@@ -6,6 +6,7 @@ export default function build() {
 
     const inputCity = document.createElement('input')
     inputCity.setAttribute('type', 'text')
+    inputCity.setAttribute('placeholder', 'enter a city...')
     enterInfo.appendChild(inputCity)
 
     const submitButton = document.createElement('button')
