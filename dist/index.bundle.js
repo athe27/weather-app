@@ -110,13 +110,43 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 
 /***/ }),
 
+/***/ "./src/buildHtml.js":
+/*!**************************!*\
+  !*** ./src/buildHtml.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ build)\n/* harmony export */ });\nconst body = document.body\n\nfunction build() {\n    const enterInfo = document.createElement('form')\n    body.appendChild(enterInfo)\n\n    const inputCity = document.createElement('input')\n    inputCity.setAttribute('type', 'text')\n    inputCity.setAttribute('placeholder', 'enter a city...')\n    enterInfo.appendChild(inputCity)\n\n    const submitButton = document.createElement('button')\n    submitButton.innerHTML = 'Submit'\n    enterInfo.appendChild(submitButton)\n\n    const main = document.createElement('div')\n    main.classList.add('main-details')\n    body.appendChild(main)\n\n    const location = document.createElement('div')\n    location.classList.add('location')\n    main.appendChild(location)\n\n    const temperature = document.createElement('div')\n    temperature.classList.add('temperature')\n    main.appendChild(temperature)\n\n    const weather = document.createElement('div')\n    weather.classList.add('weather')\n    main.appendChild(weather)\n\n    const high_low = document.createElement('div')\n    high_low.classList.add('high-low')\n    main.appendChild(high_low)\n\n    const high = document.createElement('div')\n    high.classList.add('high')\n    high_low.appendChild(high)\n\n    const low = document.createElement('div')\n    low.classList.add('low')\n    high_low.appendChild(low)\n}\n\n//# sourceURL=webpack://weather-app/./src/buildHtml.js?");
+
+/***/ }),
+
+/***/ "./src/domDisplay.js":
+/*!***************************!*\
+  !*** ./src/domDisplay.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ updateDom)\n/* harmony export */ });\nfunction updateDom(data) {\n    const city = document.querySelector('.location')\n    const temp = document.querySelector('.temperature')\n    const weather = document.querySelector('.weather')\n    const high = document.querySelector('.high')\n    const low = document.querySelector('.low')\n\n    data.then(function(data) {\n        city.innerHTML = data.city\n        temp.innerHTML = data.temp + '°'\n        weather.innerHTML = data.weather\n        high.innerHTML = 'H:' + data.temp_max + '°'\n        low.innerHTML = 'L:' + data.temp_min + '°'\n    })\n    .catch(function(err) {\n        const inputField = document.querySelector('input')\n        inputField.setCustomValidity('Please enter a valid city.')\n        inputField.reportValidity()\n    })\n}\n\n//# sourceURL=webpack://weather-app/./src/domDisplay.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _buildHtml_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./buildHtml.js */ \"./src/buildHtml.js\");\n/* harmony import */ var _weatherData_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./weatherData.js */ \"./src/weatherData.js\");\n/* harmony import */ var _domDisplay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./domDisplay */ \"./src/domDisplay.js\");\n\n\n\n\n\n(0,_buildHtml_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])()\nconst input = document.querySelector('input')\nconst submit = document.querySelector('button')\n\nsubmit.addEventListener('click', (event) => {\n    event.preventDefault()\n    const data = (0,_weatherData_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(input.value)\n    ;(0,_domDisplay__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(data)\n})\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/weatherData.js":
+/*!****************************!*\
+  !*** ./src/weatherData.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ fetchWeatherData)\n/* harmony export */ });\nconst API_KEY = '053205b634b187e5d3f8b90a0db292ef'\n\nasync function fetchWeatherData(cityName) {\n    const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&APPID=' + API_KEY, {mode: 'cors'})\n    return response.json().then(function(response) {\n        try {\n            return {\n                city: formatCityName(cityName),\n                weather: response.weather[0].main,\n                temp: kelvinToFahrenheit(response.main.temp),\n                temp_max: kelvinToFahrenheit(response.main.temp_max),\n                temp_min: kelvinToFahrenheit(response.main.temp_min)\n            }\n        } catch (err) {\n            throw err\n        }\n    })\n    .catch(function(err) {\n        console.log(err)\n    })\n}\n\nfunction formatCityName(cityName) {\n    return cityName[0].toUpperCase() + cityName.toLowerCase().slice(1)\n}\n\nfunction kelvinToFahrenheit(K) {\n    return Math.round((K - 273.15) * 9/5 + 32)\n}\n\n//# sourceURL=webpack://weather-app/./src/weatherData.js?");
 
 /***/ })
 
